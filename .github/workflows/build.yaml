@@ -29,7 +29,7 @@ jobs:
       run: |
         export CC=clang-15
         export CXX=clang++-15
-        mkdir -p mp/build && pushd mp/build
+        mkdir -p record/build && pushd record/build
         cmake -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opt ..
         make check
         popd
