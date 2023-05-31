@@ -22,9 +22,8 @@ jobs:
     - name: Checkout sort
       uses: actions/checkout@v2
       with:
-        repository: cpp-core/sort
-        path: mp
-        submodules: recursive
+        repository: cpp-core/record
+        path: record
         
     - name: Build and run the tests
       run: |
