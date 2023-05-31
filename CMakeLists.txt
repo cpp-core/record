@@ -1,27 +1,27 @@
 cmake_minimum_required (VERSION 3.24 FATAL_ERROR)
-project (timer VERSION 0.1 LANGUAGES C CXX ASM)
+project (record VERSION 0.1 LANGUAGES C CXX ASM)
 
 # Make including this file idempotent
 #
-if(TARGET timer OR TARGET timer::timer)
+if(TARGET record OR TARGET record::record)
   return()
 endif()
 
 # Setup symlinks for this architecture
 #
-# set(TIMER_ARCH_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/words/${CMAKE_SYSTEM_PROCESSOR})
-# if (EXISTS ${TIMER_ARCH_INCLUDE_DIR})
-#   message("-- timer: Creating architecture symlink to ${CMAKE_SYSTEM_PROCESSOR}")
+# set(RECORD_ARCH_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/words/${CMAKE_SYSTEM_PROCESSOR})
+# if (EXISTS ${RECORD_ARCH_INCLUDE_DIR})
+#   message("-- record: Creating architecture symlink to ${CMAKE_SYSTEM_PROCESSOR}")
 #   execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
-#     ${TIMER_ARCH_INCLUDE_DIR}
+#     ${RECORD_ARCH_INCLUDE_DIR}
 #     ${CMAKE_SOURCE_DIR}/include/words/arch)
 # endif()
 
-# set(TIMER_ARCH_SRC_DIR ${CMAKE_SOURCE_DIR}/src/words/${CMAKE_SYSTEM_PROCESSOR})
-# if (EXISTS ${TIMER_ARCH_SRC_DIR})
-#   message("-- timer: Creating architecture symlink ${CMAKE_SYSTEM_PROCESSOR}")
+# set(RECORD_ARCH_SRC_DIR ${CMAKE_SOURCE_DIR}/src/words/${CMAKE_SYSTEM_PROCESSOR})
+# if (EXISTS ${RECORD_ARCH_SRC_DIR})
+#   message("-- record: Creating architecture symlink ${CMAKE_SYSTEM_PROCESSOR}")
 #   execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
-#     ${TIMER_ARCH_SRC_DIR}
+#     ${RECORD_ARCH_SRC_DIR}
 #     ${CMAKE_SOURCE_DIR}/src/words/arch)
 # endif()
 
@@ -34,8 +34,8 @@ if(PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME)
 
   # Options for generating tests and documentation
   #
-  option(TIMER_TEST "Generate the tests." ON)
-  option(TIMER_DOCS "Generate the docs." OFF)
+  option(RECORD_TEST "Generate the tests." ON)
+  option(RECORD_DOCS "Generate the docs." OFF)
 
   # compile_commands.json
   #
@@ -56,8 +56,8 @@ if(PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME)
   add_compile_options(-O)
 
 else()
-  option(TIMER_TEST "Generate the tests." OFF)
-  option(TIMER_DOCS "Generate the docs." OFF)
+  option(RECORD_TEST "Generate the tests." OFF)
+  option(RECORD_DOCS "Generate the docs." OFF)
 endif()
 
 # Put executables in the top-level binary directory
@@ -66,11 +66,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Output configuration
 #
-message("-- timer: Configuration: ${CMAKE_CURRENT_SOURCE_DIR}")
-message("-- timer: Included from: ${CMAKE_SOURCE_DIR}")
-message("-- timer: Install prefix: ${CMAKE_INSTALL_PREFIX}")
-message("-- timer: test ${TIMER_TEST}")
-message("-- timer: docs ${TIMER_DOCS}")
+message("-- record: Configuration: ${CMAKE_CURRENT_SOURCE_DIR}")
+message("-- record: Included from: ${CMAKE_SOURCE_DIR}")
+message("-- record: Install prefix: ${CMAKE_INSTALL_PREFIX}")
+message("-- record: test ${RECORD_TEST}")
+message("-- record: docs ${RECORD_DOCS}")
 
 # Add our dependencies
 #
@@ -86,7 +86,7 @@ set(ASM_SOURCES
 
 set(FILES)
 foreach(SOURCE ${SOURCES})
-  list(APPEND FILES "src/core/timer/${SOURCE}.cpp")
+  list(APPEND FILES "src/core/record/${SOURCE}.cpp")
 endforeach()
 
 foreach(SOURCE ${ASM_SOURCES})
@@ -96,37 +96,37 @@ foreach(SOURCE ${ASM_SOURCES})
   endif()
 endforeach()
 
-add_library(timer ${FILES})
-add_library(timer::timer ALIAS timer)
+add_library(record ${FILES})
+add_library(record::record ALIAS record)
 
 # Define the header files for this library.
 #
 file(GLOB_RECURSE PUBLIC_INCLUDE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} include/*.h)
-target_sources(timer INTERFACE FILE_SET HEADERS BASE_DIRS include FILES ${PUBLIC_INCLUDE_FILES})
+target_sources(record INTERFACE FILE_SET HEADERS BASE_DIRS include FILES ${PUBLIC_INCLUDE_FILES})
 
-target_include_directories(timer PUBLIC)
-target_link_libraries(timer PUBLIC)
+target_include_directories(record PUBLIC)
+target_link_libraries(record PUBLIC)
 
 foreach(prog
-    timer0
+    record0
     )
   add_executable(${prog} src/tools/${prog}.cpp)
-  target_link_libraries(${prog} timer::timer)
+  target_link_libraries(${prog} record::record)
 endforeach()
 
 # Optionally configure the tests
 #
-if(TIMER_TEST)
+if(RECORD_TEST)
  add_gtest()
  add_subdirectory(test)
 endif()
 
 # Optionally configure the documentation
 #
-# if(TIMER_DOCS)
+# if(RECORD_DOCS)
 #   add_subdirectory(docs)
 # endif()
 
 # Installation
 #
-#install_config(timer)
+#install_config(record)
