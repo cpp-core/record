@@ -34,7 +34,6 @@ struct Iterator {
 	reference(const reference& other) = default;
 	
 	reference& operator=(const reference other) {
-	    assert(size() == other.size());
 	    std::copy(other.data_, other.data_ + size_, data_);
 	    return *this;
 	}
@@ -44,7 +43,6 @@ struct Iterator {
 	reference& operator=(const value_type&);
 	
 	friend void swap(reference a, reference b) {
-	    assert(a.size() == b.size());
 	    if constexpr (SwapRanges) {
 		std::swap_ranges(a.data(), a.data() + a.size(), b.data());
 	    } else {
@@ -233,7 +231,6 @@ struct Iterator {
     }
 
     friend difference_type operator-(const Iterator& a, const Iterator& b) {
-	assert(a.size() == b.size());
 	return (a.data_ - b.data_) / a.size_;
     }
 
@@ -254,7 +251,6 @@ Iterator<T, SwapRanges, HeapValueType>::reference::reference(Iterator<T, SwapRan
 template<class T, bool SwapRanges, bool HeapValueType>
 typename Iterator<T, SwapRanges, HeapValueType>::reference& Iterator<T, SwapRanges, HeapValueType>::reference::operator=
 (const Iterator<T, SwapRanges, HeapValueType>::value_type& value) {
-    assert(size() == value.size());
     std::copy(value.data(), value.data() + value.size(), data());
     return *this;
 }
