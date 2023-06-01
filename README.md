@@ -1,9 +1,28 @@
 [![Build](https://github.com/cpp-core/record/actions/workflows/build.yaml/badge.svg)](https://github.com/cpp-core/record/actions/workflows/build.yaml)
 
-`core::record::Iterator` is an iterator for a contiguous sequence of
-equal length records with a run-time determined layout.
+# Motivation
+The `C++` standard library provides a variety of iterator-based
+algorithms along with methods for creating iterators for many types of
+sequences. However, consider a `std::vector<int>` representing a
+seqeunce of records each with `ncols` integer elements where `ncols`
+is a run-time parameter. There is no simple way to construct an
+iterator for these records.
 
-## Example
+# Synopsis
+The `core::record` library provides standards conforming (as much as
+feasible) iterators to fill this role.
+
+`core::record::Iterator` is an iterator for a contiguous sequence of
+equal length records of a possibly opaque type and run-time determined
+length.
+
+`core::record::FixedIterator` is an iterator for a contiguous sequence of
+equal length records of a possibly opaque type and compile-time determined
+length.
+
+# Basics
+
+## Iterator Example
 
 ```c++
 #include <iostream>
@@ -48,7 +67,7 @@ int main(int argc, const char *argv[]) {
 }
 ```
 
-## Build
+# Build
 
     git clone git@github.com:cpp-core/record
     mkdir record/build && cd record/build
