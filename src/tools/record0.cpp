@@ -4,7 +4,7 @@
 #include <iostream>
 #include <random>
 #include <vector>
-#include "core/record/record.h"
+#include "core/record/iterator.h"
 
 using namespace core;
 
