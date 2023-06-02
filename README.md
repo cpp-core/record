@@ -12,13 +12,12 @@ iterator for these records.
 The `core::record` library provides standards conforming (as much as
 feasible) iterators to fill this role.
 
-`core::record::Iterator` is an iterator for a contiguous sequence of
+`core::record::Iterator` - an iterator for a contiguous sequence of
 equal length records of a possibly opaque type and run-time determined
-length.
-
-`core::record::FixedIterator` is an iterator for a contiguous sequence of
-equal length records of a possibly opaque type and compile-time determined
-length.
+length.  
+`core::record::FixedIterator` - an iterator for a contiguous
+sequence of equal length records of a possibly opaque type and
+compile-time determined length.
 
 # Basics
 
