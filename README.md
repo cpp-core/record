@@ -1,4 +1,4 @@
-[![Build](https://github.com/cpp-core/record/actions/workflows/build.yaml/badge.svg)](https://github.com/cpp-core/record/actions/workflows/build.yaml)
+[![Build](https://github.com/cpp-core/record/actions/workflows/build.yaml/badge.svg)](https://github.com/cpp-core/record/actions/workflows/build.yaml) [![Docs](https://github.com/cpp-core/record/actions/workflows/docs.yaml/badge.svg)](https://github.com/cpp-core/record/actions/workflows/docs.yaml)
 
 # Motivation
 The `C++` standard library provides a variety of iterator-based
