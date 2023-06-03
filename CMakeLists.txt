@@ -123,9 +123,9 @@ endif()
 
 # Optionally configure the documentation
 #
-# if(RECORD_DOCS)
-#   add_subdirectory(docs)
-# endif()
+if(RECORD_DOCS)
+  add_subdirectory(docs)
+endif()
 
 # Installation
 #

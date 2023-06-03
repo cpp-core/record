@@ -1,0 +1,4 @@
+
+.. cpp:{{ kind }}:: {{ decl }}
+
+    {{ brief }}
