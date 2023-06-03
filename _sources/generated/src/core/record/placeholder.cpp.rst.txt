@@ -1,0 +1,13 @@
+
+
+.. _src/core/record/placeholder.cpp:
+
+placeholder.cpp
+===================================
+
+.. code-block:: cpp
+
+    
+    
+    void foo() {
+    }

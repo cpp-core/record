@@ -1,0 +1,11 @@
+
+
+.. _include:
+
+include
+===========
+
+.. toctree::
+   :maxdepth: 1
+
+   core/ <core/dir>

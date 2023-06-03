@@ -1,0 +1,11 @@
+
+
+.. _test:
+
+test
+========
+
+.. toctree::
+   :maxdepth: 1
+
+   src/ <src/dir>

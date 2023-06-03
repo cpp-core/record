@@ -1,0 +1,11 @@
+
+
+.. _test/src/core/record:
+
+record
+==========
+
+.. toctree::
+   :maxdepth: 1
+
+   test_record_basic.cpp

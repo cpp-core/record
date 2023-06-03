@@ -1,0 +1,11 @@
+
+
+.. _test/src:
+
+src
+=======
+
+.. toctree::
+   :maxdepth: 1
+
+   core/ <core/dir>

@@ -1,0 +1,11 @@
+
+
+.. _src/core/record:
+
+record
+==========
+
+.. toctree::
+   :maxdepth: 1
+
+   placeholder.cpp
