@@ -45,18 +45,6 @@ struct Iterator {
 	
 	reference& operator=(const value_type&);
 	
-	friend void swap(reference a, reference b) {
-	    if constexpr (SwapRanges) {
-		std::swap_ranges(a.data(), a.data() + a.size(), b.data());
-	    } else {
-		auto size = a.size();
-		storage_pointer buffer = (storage_pointer)alloca(size * sizeof(storage_type));
-		std::copy(a.data(), a.data() + size, buffer);
-		std::copy(b.data(), b.data() + size, a.data());
-		std::copy(buffer, buffer + size, b.data());
-	    }
-	}
-
 	operator const storage_pointer() const {
 	    return data_;
 	}
@@ -67,6 +55,18 @@ struct Iterator {
 
 	size_t size() const {
 	    return size_;
+	}
+
+	friend void swap(reference a, reference b) {
+	    if constexpr (SwapRanges) {
+		std::swap_ranges(a.data(), a.data() + a.size(), b.data());
+	    } else {
+		auto size = a.size();
+		storage_pointer buffer = (storage_pointer)alloca(size * sizeof(storage_type));
+		std::copy(a.data(), a.data() + size, buffer);
+		std::copy(b.data(), b.data() + size, a.data());
+		std::copy(buffer, buffer + size, b.data());
+	    }
 	}
 	
     private:
@@ -95,6 +95,13 @@ struct Iterator {
 	    if (use_stack())
 		std::copy(other.data(), other.data() + other.size(), data_);
 	    other.data_ = nullptr;
+	}
+
+	stack_value_type& operator=(stack_value_type&& other) noexcept {
+	    std::swap(size_, other.size_);
+	    std::swap(data_, other.data_);
+	    std::swap(arr, other.arr);
+	    return *this;
 	}
 
 	~stack_value_type() {
@@ -152,6 +159,12 @@ struct Iterator {
 	    : data_(other.data_)
 	    , size_(other.size()) {
 	    other.data_ = nullptr;
+	}
+
+	heap_value_type& operator=(heap_value_type&& other) noexcept {
+	    std::swap(data_, other.data_);
+	    std::swap(size_, other.size_);
+	    return *this;
 	}
 
 	~heap_value_type() {
