@@ -109,6 +109,7 @@ target_link_libraries(record PUBLIC)
 
 foreach(prog
     record0
+    record1
     )
   add_executable(${prog} src/tools/${prog}.cpp)
   target_link_libraries(${prog} record::record)

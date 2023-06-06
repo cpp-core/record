@@ -4,6 +4,7 @@ find_package(Threads REQUIRED)
 
 set(TESTS
   record/basic
+  record/iterator_interface
   )
 
 set(LIBRARIES

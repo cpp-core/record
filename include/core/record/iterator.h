@@ -19,11 +19,14 @@ struct Iterator {
     using storage_pointer = storage_type*;
 
     using iterator_category = std::random_access_iterator_tag;
-    using difference_type = std::ptrdiff_t;
 
     template<size_t N> struct stack_value_type;
     struct heap_value_type;
     using value_type = std::conditional_t<HeapValueType, heap_value_type, stack_value_type<56>>;
+    
+    using difference_type = std::ptrdiff_t;
+
+    using pointer = storage_pointer;
     
     struct reference {
 	explicit reference(storage_pointer data, size_t size)
@@ -73,10 +76,17 @@ struct Iterator {
 
     template<size_t N = 56>
     struct stack_value_type {
+	stack_value_type()
+	    : size_(0)
+	    , data_(nullptr) {
+	}
+	
 	stack_value_type(reference r)
-	    : size_(r.size())
-	    , data_(use_stack() ? &arr[0] : (storage_pointer)std::malloc(sizeof(T) * r.size())) {
-	    std::copy(r.data(), r.data() + r.size(), data_);
+	    : stack_value_type(r.size(), r.data()) {
+	}
+
+	stack_value_type(const stack_value_type& other) noexcept
+	    : stack_value_type(other.size(), other.data()) {
 	}
 
 	stack_value_type(stack_value_type&& other) noexcept
@@ -109,6 +119,12 @@ struct Iterator {
 	}
 
     private:
+	stack_value_type(size_t n, const T *src) noexcept
+	    : size_(n)
+	    , data_(use_stack() ? &arr[0] : (storage_pointer)std::malloc(sizeof(T) * n)) {
+	    std::copy(src, src + n, data_);
+	}
+	
 	bool use_stack() const {
 	    return size_ <= N;
 	}
@@ -119,12 +135,19 @@ struct Iterator {
     };
 
     struct heap_value_type {
+	heap_value_type()
+	    : data_(nullptr)
+	    , size_(0) {
+	}
+	    
 	heap_value_type(reference r)
-	    : data_((storage_pointer)std::malloc(sizeof(T) * r.size())),
-	      size_(r.size()) {
-	    std::copy(r.data(), r.data() + r.size(), data_);
+	    : heap_value_type(r.size(), r.data()) {
 	}
 
+	heap_value_type(const heap_value_type& other)
+	    : heap_value_type(other.size(), other.data()) {
+	}
+	
 	heap_value_type(heap_value_type&& other) noexcept
 	    : data_(other.data_)
 	    , size_(other.size()) {
@@ -152,9 +175,20 @@ struct Iterator {
 	}
 
     private:
+	heap_value_type(size_t n, const T *src)
+	    : data_((storage_pointer)std::malloc(sizeof(T) * n))
+	    , size_(n) {
+	    std::copy(src, src + n, data_);
+	}
+	
 	storage_pointer data_{nullptr};
 	size_t size_;
     };
+
+    Iterator()
+	: data_(nullptr)
+	, size_(0) {
+    }
 
     Iterator(storage_pointer data, size_t size)
 	: data_(data)
@@ -228,6 +262,12 @@ struct Iterator {
 	auto r = *this;
 	r -= n;
 	return r;
+    }
+
+    friend auto operator+(difference_type n, const Iterator& a) {
+	Iterator b(a);
+	b += n;
+	return b;
     }
 
     friend difference_type operator-(const Iterator& a, const Iterator& b) {
